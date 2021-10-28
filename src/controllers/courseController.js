@@ -17,8 +17,17 @@ const createCourse = (req, res) => {
         })
 }
 
+const details = (req, res) => {
+    let courseId = req.params.courseId;
+    courseService.findOne(courseId)
+        .then(course => {
+            res.render('courses/details', {...course});
+        })
+}
+
 router.get('/create', create);
 router.post('/create', createCourse);
+router.get('/:courseId/details', details);
 
 
 module.exports = router;

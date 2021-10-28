@@ -11,8 +11,17 @@ const create = (courseData) => {
     return Course.create({...courseData});
 }
 
+const findOne = (courseId) => {
+    return Course.findById(courseId).lean();
+}
+
+
+
+
+
 let courseService = {
-    create
+    create,
+    findOne,
 }
 
 
