@@ -6,5 +6,5 @@ exports.handlebars = (app) => {
         extname: 'hbs',
     }));
     app.set('view engine', 'hbs');
-    app.set('views', path.resolve(__dirname, './src/views'));
+    app.set('views', path.resolve(__dirname, '../views'));
 }
