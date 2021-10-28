@@ -38,9 +38,7 @@ const registerUser = (req, res) => {
         })
         .catch(err => {
             // TODO Error handler;
-        })
-        
-
+        });
 };
 
 

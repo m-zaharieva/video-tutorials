@@ -8,7 +8,7 @@ const create = (req, res) => {
 
 const createCourse = (req, res) => {
     let courseData = req.body;
-    courseService.create(courseData)
+    courseService.create(courseData, req.user._id)
         .then(course => {
             res.redirect('/');
         })
@@ -19,9 +19,18 @@ const createCourse = (req, res) => {
 
 const details = (req, res) => {
     let courseId = req.params.courseId;
+    let userId = req.user?._id;
+    
     courseService.findOne(courseId)
         .then(course => {
-            res.render('courses/details', {...course});
+            
+            let isOwner = course.owner == userId;
+            let isEnrolled = course.users.find(x => x == userId);
+
+            res.render('courses/details', {...course, isOwner, isEnrolled});
+        })
+        .catch(err => {
+            // TODO Error handler
         })
 }
 

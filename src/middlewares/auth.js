@@ -20,7 +20,7 @@ const auth = (req, res, next) => {
 
 
 let authMiddleware = {
-    auth
+    auth,
 }
 
 module.exports = authMiddleware

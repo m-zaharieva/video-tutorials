@@ -1,14 +1,14 @@
 const Course = require('./../models/Course.js');
 
 
-const create = (courseData) => {
+const create = (courseData, userId) => {
     if (courseData.isPublic == 'on') {
         courseData.isPublic = true;
     } else {
         courseData.isPublic = false;
     }
 
-    return Course.create({...courseData});
+    return Course.create({...courseData, owner: userId});
 }
 
 const findOne = (courseId) => {
