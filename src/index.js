@@ -1,8 +1,10 @@
 const express = require('express');
 
 const { PORT } = require('./config/constants.js');
+const { handlebars } = require('./config/handlebars.js');
 
 const app = express();
+handlebars(app);
 
 
 app.get('/', (req, res) => {
