@@ -2,7 +2,7 @@ const Course = require('./../models/Course.js');
 
 
 const create = (courseData) => {
-    if (courseData.isPublic == ' on') {
+    if (courseData.isPublic == 'on') {
         courseData.isPublic = true;
     } else {
         courseData.isPublic = false;

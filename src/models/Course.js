@@ -18,9 +18,9 @@ const courseSchema = new mongoose.Schema({
         default: false,
     },
     createdAt: {
-        type: Date,
-        // set: v => v = new Data, 
+        type: String,
         required: true,
+        default: (new Date()).toDateString(),
     },
     users: [
         {

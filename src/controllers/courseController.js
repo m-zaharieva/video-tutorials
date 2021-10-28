@@ -10,7 +10,10 @@ const createCourse = (req, res) => {
     let courseData = req.body;
     courseService.create(courseData)
         .then(course => {
-            console.log(course);
+            res.redirect('/');
+        })
+        .catch(err => {
+            // TODO Error handler 
         })
 }
 
