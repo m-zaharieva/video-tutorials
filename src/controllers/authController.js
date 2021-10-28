@@ -65,12 +65,16 @@ const loginUser = (req, res) => {
 
 };
 
+const logoutUser = (req, res) => {
+    res.clearCookie(COOKIE_NAME);
+    res.redirect('/');
+}
 
 
-
-router.get('/register', register)
-router.post('/register', registerUser)
-router.get('/login', login)
-router.post('/login', loginUser)
+router.get('/register', register);
+router.post('/register', registerUser);
+router.get('/login', login);
+router.post('/login', loginUser);
+router.get('/logout', logoutUser)
 
 module.exports = router;
