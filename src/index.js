@@ -18,12 +18,6 @@ handlebars(app);
 app.use(router);
 
 
-// TODO: Delete this rout when create homeController
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-
 
 database(DB_CONNECTION_STRING)
     .then(() => {
