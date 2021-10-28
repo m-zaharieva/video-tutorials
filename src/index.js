@@ -1,19 +1,29 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const { PORT, DB_CONNECTION_STRING } = require('./config/constants.js');
 const { handlebars } = require('./config/handlebars.js');
 const { database } = require('./config/database.js');
+const authMiddleware = require('./middlewares/auth.js');
 const router = require('./routes.js');
+
 
 const app = express();
 app.use('/static', express.static(path.resolve(__dirname, './static')));
+app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+app.use(authMiddleware.auth);
 handlebars(app);
 app.use(router);
 
+
+// TODO: Delete this rout when create homeController
 app.get('/', (req, res) => {
     res.render('home');
-})
+});
+
+
 
 database(DB_CONNECTION_STRING)
     .then(() => {
