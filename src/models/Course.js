@@ -19,6 +19,7 @@ const courseSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
+        // set: v => v = new Data, 
         required: true,
     },
     users: [
@@ -28,6 +29,7 @@ const courseSchema = new mongoose.Schema({
         }
     ]
 });
+
 
 const Course = mongoose.model('Course', courseSchema);
 
