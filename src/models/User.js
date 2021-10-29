@@ -5,13 +5,13 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        required: [true, 'Username is required.'],
         minlength: [5, 'Username should be at least 5 characters long'],
         validate: [/^[a-zA-Z0-9]+$/i, 'Your username should have only english letters and digits.']
     },
     hashedPassword: {
         type: String,
-        required: true,
+        required: [true, 'Password is required'],
         minlength: [5, 'Password should be at least 5 characters long'],
         validate: [/^[a-zA-Z0-9]+$/i, 'Your password should have only english letters and digits.']
     },
@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', function (next) {
-    bcrypt.hash(password, 10)
+    bcrypt.hash(this.hashedPassword, 10)
         .then(hash => {
-            this.password = hash;
+            this.hashedPassword = hash;
             next();
         })
 })

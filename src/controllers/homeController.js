@@ -3,14 +3,17 @@ const router = require('express').Router();
 const homeService = require('./../services/homeService.js');
 
 
-const home = (req, res) => {
+const home = (req, res, next) => {
     homeService.getPublicCources()
         .then(courses => {
-            res.render('home', {courses});
+            res.render('home', { courses });
         })
         .catch(err => {
-            let error = [err.message];
-            res.render('home', {error})
+            res.locals.errorHandler = {
+                render: 'home',
+                redirect: undefined,
+            }
+            next(err);
         })
 }
 

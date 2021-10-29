@@ -8,14 +8,19 @@ const create = (req, res) => {
     res.render('courses/create');
 }
 
-const createCourse = (req, res) => {
+const createCourse = (req, res, next) => {
     let courseData = req.body;
     courseService.createOne(courseData, req.user._id)
         .then(course => {
             res.redirect('/');
         })
         .catch(err => {
-            // TODO Error handler 
+            res.locals.errorHandler = {
+                render: 'courses/create',
+                redirect: undefined,
+                data: courseData,
+            }
+            next(err);
         })
 }
 

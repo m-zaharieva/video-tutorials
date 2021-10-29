@@ -11,10 +11,6 @@ const register = (userData) =>
             if (user) {
                 throw new Error('Username is already taken.')
             }
-
-            // return hashPassword(userData.password);
-        // })
-        // .then(hash => {
             return User.create({ username: userData.username, hashedPassword: userData.password });
         });
 
@@ -25,19 +21,22 @@ const login = (userData) => {
             if (!user) {
                 throw new Error('Incorrect username or password!')
             }
-            return createToken(user)
 
+            return Promise.all([bcrypt.compare(userData.password, user.hashedPassword), user]);
+        })
+        .then(([isValid, user]) => {
+            if (!isValid) {
+                throw new Error('Incorrect username or password!')
+            }
+            return createToken(user);
         })
         .then(token => {
             return token;
-        })
-        .catch(er => {
-            // TODO: Erro Handler;
-        })
+        });
 }
 
 const findUser = (username) => {
-    return User.findOne({ username }).lean();
+    return User.findOne({ username }).populate('courses').lean();
 }
 
 // const hashPassword = (password) => {
@@ -61,6 +60,7 @@ const createToken = (user) => {
 const authService = {
     register,
     login,
+    findUser,
 }
 
 module.exports = authService;

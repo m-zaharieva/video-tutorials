@@ -7,6 +7,7 @@ const { handlebars } = require('./config/handlebars.js');
 const { database } = require('./config/database.js');
 const authMiddleware = require('./middlewares/auth.js');
 const router = require('./routes.js');
+const { errorHandler } = require('./middlewares/errorHandler.js');
 
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use(authMiddleware.auth);
 handlebars(app);
 app.use(router);
+app.use(errorHandler);
 
 
 
