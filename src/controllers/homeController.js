@@ -9,7 +9,8 @@ const home = (req, res) => {
             res.render('home', {courses});
         })
         .catch(err => {
-            // TODO error handler
+            let error = [err.message];
+            res.render('home', {error})
         })
 }
 

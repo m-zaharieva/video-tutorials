@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const authService = require('./../services/authService.js');
 const { COOKIE_NAME } = require('./../config/constants.js');
+const authMiddleware = require('./../middlewares/auth.js');
 
 
 // Register actions
@@ -14,7 +15,21 @@ const registerUser = (req, res) => {
 
     if (userData.password !== userData.repeatPassword) {
         let ctx = {
-            error: 'Passowrds don\'t match!',
+            error: ['Passowrds don\'t match!'],
+            username: userData.username,
+        }
+        res.render('auth/register', ctx);
+        
+    } else if (userData.password.length < 5) {
+        let ctx = {
+            error: ['Your Password should be at least 5 characters long'],
+            username: userData.username,
+        }
+        res.render('auth/register', ctx);
+
+    } else if (!/^[a-zA-Z0-9]+$/.test(userData.password)) {
+        let ctx = {
+            error: ['Your password should have only English letters and digits'],
             username: userData.username,
         }
         res.render('auth/register', ctx);
@@ -37,7 +52,12 @@ const registerUser = (req, res) => {
             res.redirect('/');
         })
         .catch(err => {
-            // TODO Error handler;
+            let ctx = {
+                error: [err.message],
+                username: userData.username,
+            }
+
+            res.render('auth/register', ctx)
         });
 };
 
@@ -68,11 +88,10 @@ const logoutUser = (req, res) => {
     res.redirect('/');
 }
 
-
-router.get('/register', register);
-router.post('/register', registerUser);
-router.get('/login', login);
-router.post('/login', loginUser);
-router.get('/logout', logoutUser)
+router.get('/register', authMiddleware.isGuest, register);
+router.post('/register', authMiddleware.isGuest, registerUser);
+router.get('/login', authMiddleware.isGuest, login);
+router.post('/login', authMiddleware.isGuest, loginUser);
+router.get('/logout', logoutUser);
 
 module.exports = router;

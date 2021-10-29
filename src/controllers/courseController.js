@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
 const courseService = require('./../services/courseService.js');
+const courseUserController = require('./../controllers/courseUserController.js');
+const authMiddleware = require('./../middlewares/auth.js');
 
 const create = (req, res) => {
     res.render('courses/create');
@@ -8,7 +10,7 @@ const create = (req, res) => {
 
 const createCourse = (req, res) => {
     let courseData = req.body;
-    courseService.create(courseData, req.user._id)
+    courseService.createOne(courseData, req.user._id)
         .then(course => {
             res.redirect('/');
         })
@@ -17,26 +19,11 @@ const createCourse = (req, res) => {
         })
 }
 
-const details = (req, res) => {
-    let courseId = req.params.courseId;
-    let userId = req.user?._id;
-    
-    courseService.findOne(courseId)
-        .then(course => {
-            
-            let isOwner = course.owner == userId;
-            let isEnrolled = course.users.find(x => x == userId);
 
-            res.render('courses/details', {...course, isOwner, isEnrolled});
-        })
-        .catch(err => {
-            // TODO Error handler
-        })
-}
+router.get('/create', authMiddleware.isAuth, create);
+router.post('/create', authMiddleware.isAuth, createCourse);
 
-router.get('/create', create);
-router.post('/create', createCourse);
-router.get('/:courseId/details', details);
+router.use('/:courseId', authMiddleware.userStatus, courseUserController);
 
 
 module.exports = router;

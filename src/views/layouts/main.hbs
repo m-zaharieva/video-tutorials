@@ -51,13 +51,13 @@
             </ul>
         </nav>
 
-        {{#if error}}
+        {{#each error}}
             <!-- In case of error, you should display section with class "notifications" -->
             <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
             <section class="notifications">
-                <p class="notification-message">{{error}}</p>
+                <p class="notification-message">{{this}}</p>
             </section>
-        {{/if}}
+        {{/each}}
 
 
         {{{ body }}}

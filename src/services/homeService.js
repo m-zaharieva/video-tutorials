@@ -1,7 +1,7 @@
 const Course = require('./../models/Course.js');
 
 
-const getPublicCources = (req, res) => {
+const getPublicCources = () => {
     return Course.find({isPublic: true}).lean();
 }
 

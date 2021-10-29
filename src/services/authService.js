@@ -5,9 +5,8 @@ const jwt = require('jsonwebtoken');
 const { TOKEN_SECRET } = require('./../config/constants.js');
 
 
-const register = (userData) => {
-
-    return findUser(userData.username)
+const register = (userData) =>
+    findUser(userData.username)
         .then(user => {
             if (user) {
                 throw new Error('Username is already taken.')
@@ -17,13 +16,8 @@ const register = (userData) => {
         })
         .then(hash => {
             return User.create({ username: userData.username, hashedPassword: hash });
-        })
-        .catch(err => {
-            console.log('register user', err);
-            // TODO: Error handler - 'Username is already taken'
         });
 
-}
 
 const login = (userData) => {
     return findUser(userData.username)
@@ -32,7 +26,7 @@ const login = (userData) => {
                 throw new Error('Incorrect username or password!')
             }
             return createToken(user)
-        
+
         })
         .then(token => {
             return token;
