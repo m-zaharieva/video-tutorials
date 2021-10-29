@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
     hashedPassword: {
         type: String,
         required: true,
+        minlength: [5, 'Password should be at least 5 characters long'],
+        validate: [/^[a-zA-Z0-9]+$/i, 'Your password should have only english letters and digits.']
     },
     courses: [
         {
@@ -25,6 +27,7 @@ userSchema.pre('save', function (next) {
     bcrypt.hash(password, 10)
         .then(hash => {
             this.password = hash;
+            next();
         })
 })
 

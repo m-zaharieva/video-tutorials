@@ -12,10 +12,10 @@ const register = (userData) =>
                 throw new Error('Username is already taken.')
             }
 
-            return hashPassword(userData.password);
-        })
-        .then(hash => {
-            return User.create({ username: userData.username, hashedPassword: hash });
+            // return hashPassword(userData.password);
+        // })
+        // .then(hash => {
+            return User.create({ username: userData.username, hashedPassword: userData.password });
         });
 
 
@@ -40,9 +40,9 @@ const findUser = (username) => {
     return User.findOne({ username }).lean();
 }
 
-const hashPassword = (password) => {
-    return bcrypt.hash(password, 10);
-}
+// const hashPassword = (password) => {
+//     return bcrypt.hash(password, 10);
+// }
 
 const createToken = (user) => {
     let payload = {

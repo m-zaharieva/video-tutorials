@@ -19,30 +19,14 @@ const registerUser = (req, res) => {
             username: userData.username,
         }
         res.render('auth/register', ctx);
-        
-    } else if (userData.password.length < 5) {
-        let ctx = {
-            error: ['Your Password should be at least 5 characters long'],
-            username: userData.username,
-        }
-        res.render('auth/register', ctx);
 
-    } else if (!/^[a-zA-Z0-9]+$/.test(userData.password)) {
-        let ctx = {
-            error: ['Your password should have only English letters and digits'],
-            username: userData.username,
-        }
-        res.render('auth/register', ctx);
-    }
+    } 
 
     authService.register(userData)
         .then(user => {
             if (!user) {
                 throw new Error ('Unsuccessful registration. Please, try again in a few minutes.')
             }
-            return user;
-        })
-        .then(user => {
             return authService.login(user);
         })
         .then(token => {
