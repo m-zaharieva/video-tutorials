@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: [true, 'Image is required'],
-        validate: [/^https?:\/\/$/i, 'Image url should start with http:// or https:// protocol']
+        validate: [/^https?:\/\//i, 'Image url should start with http:// or https:// protocol']
     },
     isPublic: {
         type: Boolean,

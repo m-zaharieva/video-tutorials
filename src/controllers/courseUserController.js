@@ -12,21 +12,26 @@ const details = (req, res) => {
 }
 
 const edit = (req, res) => {
-    let course = req.storage.course;
-    res.render('courses/edit', {...course});
+    let data = req.storage.course;
+    res.render('courses/edit', {...data});
 }
 
-const editCourse = (req, res) => {
+const editCourse = (req, res, next) => {
     let courseId = req.storage.course._id;
     let updateData = req.body;
 
     courseService.editOne(courseId, updateData)
-    .then(course => {
-        course.save();
-        res.redirect(`/course/${course._id}/details`);
+        .then(course => {
+            course.save();
+            res.redirect(`/course/${course._id}/details`);
         })
         .catch(err => {
-            // TODO error handling
+            res.locals.errorHandler = {
+                render: 'courses/edit',
+                redirect: undefined,
+                data: updateData,
+            }
+            next(err);
         })
 }
 
@@ -46,7 +51,7 @@ const enrollCourse = (req, res) => {
     let userId = req.storage.userId;
 
     courseService.enrollOne(courseId, userId)
-        res.redirect(`/course/${courseId}/details`)
+    res.redirect(`/course/${courseId}/details`)
 
 }
 
