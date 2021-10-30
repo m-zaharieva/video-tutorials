@@ -21,8 +21,7 @@ const auth = (req, res, next) => {
 }
 
 const userStatus = (req, res, next) => {
-    let userId = req.user; // ?._id
-    console.log(userId);
+    let userId = req.user?._id; 
     let courseId = req.params.courseId;
     return courseService.findOne(courseId).lean()
         .then(course => {
