@@ -24,7 +24,7 @@ app.use(errorHandler);
 database(DB_CONNECTION_STRING)
     .then(() => {
         app.listen(PORT, () => {
-            console.log('Application is running on http://localhost:3000 ...');
+            console.log('Application is running on http://localhost:5000 ...');
         });
     })
     .catch(err => {
